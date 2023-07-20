@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const app = express();
-const notes = require("./data/notes");
+const notes = require("./data/note");
 app.get("/", (req, res) => {
   res.send("API is running");
 });
@@ -13,4 +13,4 @@ app.get("/api/notes/:id", (req, res) => {
   res.send(note);
 });
 const PORT = process.env.PORT || 5000;
-a; //pp.listen(PORT,console.log('Server started on PORT ${PORT}`));
+app.listen(PORT,console.log(`Server started on PORT ${PORT}`));
