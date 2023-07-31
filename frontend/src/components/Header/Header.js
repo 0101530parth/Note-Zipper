@@ -20,8 +20,8 @@ const Header = () => {
           </Form></Nav>
           <Nav >
             <Nav.Link href="/mynotes">
-              <Link to="/mynotes">My Notes</Link>
-              
+              {/* <Link to="/mynotes">My Notes</Link> */}
+              My Notes
               </Nav.Link>
             
             <NavDropdown title="Parth Jaiswal" id="basic-nav-dropdown">
