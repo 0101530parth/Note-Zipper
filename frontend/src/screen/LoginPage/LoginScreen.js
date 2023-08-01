@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import MainScreen from "../../components/MainScreen";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import ErrorMessage from '../../components/ErrorMessage';
 const LoginScreen = () => {
 
 const [email,setEmail] = useState("");
@@ -31,12 +32,15 @@ e.preventDefault();
     setLoading(false);
   }catch (error) {
     setError(error.response.data.message);
+    setLoading(false);
   }
 }
   return (
      <MainScreen title ="LOGIN">
     <div className ="loginContainer">
-      {/* {loading && <Loading inline="true"/>} */}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      
+      {loading && <Loading />}
       <Form onSubmit ={submitHandler}>
       <Form.Group  controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
@@ -46,7 +50,7 @@ e.preventDefault();
 
       
       <Form.Group  controlId="formBasicPassword">
-        <Form.Label>Email address</Form.Label>
+        <Form.Label>Password</Form.Label>
         <Form.Control type="password" value={password} placeholder="Enter password" onChange ={(e)=>setPassword(e.target.value)}/>
         
       </Form.Group>
