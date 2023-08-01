@@ -1,9 +1,11 @@
-import {useState} from 'react'
+import axios from "axios";
+import React, {useState} from 'react'
 import MainScreen from '../../components/MainScreen'
 import {Button,Row,Col,Form} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import ErrorMessage from '../../components/ErrorMessage';
 import Loading from '../../components/Loading';
+
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -18,20 +20,49 @@ const RegisterScreen = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+// const postDetails=(e)=>{
+//   console.log(e.value);
+// }
+const submitHandler =async (e)=>{
+  e.preventDefault();
+  if(password!==confirmpassword){
+    setMessage("Password do not match");
+  }
+  else{
+    setMessage(null)
+    try{
+      const config = {
+        headers:{
+          "Content-type": "application/json",
+    },
+  };
+  setLoading(true);
+  const { data}  =await axios.post("/api/users", {
+    email,pic,email,password
+  },
+  config
+  );
+  setLoading(false);
+  localStorage.setItem("userInfo",JSON.stringify(data));
+}catch (error){
 
-  return (// <MainScreen title ="REGISTER">
+}
+  }
+}
+  return (
+     <MainScreen title ="REGISTER">
      <div className="loginContainer">
-     {/* {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {loading && <Loading />} */}
-        <Form >
+        {loading && <Loading />} 
+        <Form onSubmit ={submitHandler}>
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="name"
-              // value={name}
+              value={name}
               placeholder="Enter name"
-              //  onChange={(e) => setName(e.target.value)}
+               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>
 
@@ -39,9 +70,9 @@ const RegisterScreen = () => {
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
-              //  value={email}
+               value={email}
               placeholder="Enter email"
-              //  onChange={(e) => setEmail(e.target.value)}
+               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
 
@@ -49,9 +80,9 @@ const RegisterScreen = () => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              //  value={password}
+               value={password}
               placeholder="Password"
-              //  onChange={(e) => setPassword(e.target.value)}
+               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
 
@@ -59,25 +90,25 @@ const RegisterScreen = () => {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
-              //  value={confirmpassword}
+               value={confirmpassword}
               placeholder="Confirm Password"
-              //  onChange={(e) => setConfirmPassword(e.target.value)}
+               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Form.Group>
 
           {picMessage && (
             <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
           )}
-          <Form.Group controlId="pic">
+          {/* <Form.Group controlId="pic">
             <Form.Label>Profile Picture</Form.Label>
             <Form.File
-              //  onChange={(e) => postDetails(e.target.files[0])}
+                onChange={(e) => postDetails(e.target.files[0])}
               id="custom-file"
               type="image/png"
               label="Upload Profile Picture"
               custom
             />
-          </Form.Group>
+          </Form.Group> */}
 
           <Button variant="primary" type="submit">
             Register
@@ -89,9 +120,7 @@ const RegisterScreen = () => {
           </Col>
         </Row>
       </div>
-  )
-    // </MainScreen>
-  
-};
-
+    </MainScreen>
+ 
+ )};
 export default RegisterScreen;
